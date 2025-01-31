@@ -1,10 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+
 import userRouter from "./routes/user-router.js";
 import movieRouter from "./routes/movie-router.js";
 import bookingsRouter from "./routes/booking-router.js";
-import cors from "cors";
+import { addMoviesAutomatically } from "./controller/movie-controller.js"; // Import function
 
 dotenv.config();
 const app = express();
@@ -20,9 +22,9 @@ app.use("/booking", bookingsRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() =>
-    app.listen(5000, () =>
-      console.log("Connected To Database And Server is running")
-    )
-  )
+  .then(async () => {
+    console.log("Connected To Database");
+    await addMoviesAutomatically(); // Add movies on startup
+    app.listen(5000, () => console.log("Server is running"));
+  })
   .catch((e) => console.log(e));
