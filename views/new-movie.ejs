@@ -5,30 +5,48 @@
   </head>
   <body>
     <%- include("partials/header") %>
-    <main>
-      <h1>Add a New Movie</h1>
-      <form action="/new-movie" method="POST">
-        <label>Title:</label><br />
-        <input type="text" name="title" required /><br /><br />
 
-        <label>Description:</label><br />
-        <textarea name="description" required></textarea><br /><br />
+    <main class="container mt-5">
+      <div class="card shadow p-4">
+        <h1 class="text-center mb-4">🎬 Add a New Movie</h1>
 
-        <label>Release Date (YYYY-MM-DD):</label><br />
-        <input type="date" name="releaseDate" required /><br /><br />
+        <!-- Notice we do "featured" as a checkbox, "actors" as comma separated -->
+        <form action="/new-movie" method="POST">
+          <div class="mb-3">
+            <label class="form-label">Title:</label>
+            <input type="text" name="title" class="form-control" required>
+          </div>
 
-        <label>Poster URL:</label><br />
-        <input type="url" name="posterUrl" required /><br /><br />
+          <div class="mb-3">
+            <label class="form-label">Description:</label>
+            <textarea name="description" class="form-control" rows="3" required></textarea>
+          </div>
 
-        <label>Featured:</label>
-        <input type="checkbox" name="featured" /><br /><br />
+          <div class="mb-3">
+            <label class="form-label">Release Date (YYYY-MM-DD):</label>
+            <input type="date" name="releaseDate" class="form-control" required>
+          </div>
 
-        <label>Actors (comma separated):</label><br />
-        <input type="text" name="actors" placeholder="Tim Robbins, Morgan Freeman" /><br /><br />
+          <div class="mb-3">
+            <label class="form-label">Poster URL:</label>
+            <input type="url" name="posterUrl" class="form-control" required>
+          </div>
 
-        <button type="submit">Add Movie</button>
-      </form>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="featured" id="featured">
+            <label class="form-check-label" for="featured">Featured</label>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Actors (comma separated):</label>
+            <input type="text" name="actors" class="form-control" placeholder="Tim Robbins, Morgan Freeman" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">🎥 Add Movie</button>
+        </form>
+      </div>
     </main>
+
     <%- include("partials/footer") %>
   </body>
 </html>

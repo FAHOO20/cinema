@@ -9,10 +9,14 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="/movies">Movies</a></li>
+
             <% if (!loggedIn) { %>
               <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
               <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
             <% } else { %>
+              <% if (user.isAdmin) { %>
+                <li class="nav-item"><a class="nav-link text-warning" href="/new-movie">➕ Add Movie</a></li>
+              <% } %>
               <li class="nav-item"><a class="nav-link" href="/my-bookings">My Bookings</a></li>
               <li class="nav-item"><a class="nav-link text-danger" href="/logout">Logout</a></li>
             <% } %>
@@ -20,5 +24,4 @@
         </div>
       </div>
     </nav>
-  </header>
-  
+</header>

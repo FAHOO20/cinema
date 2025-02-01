@@ -10,6 +10,7 @@ import movieRouter from "./routes/movie-router.js";
 import bookingsRouter from "./routes/booking-router.js";
 import viewRouter from "./routes/view-router.js";
 import { addMoviesAutomatically } from "./controller/movie-controller.js";
+import { createAdminIfNotExists } from "./controller/user-controller.js";
 
 dotenv.config();
 const app = express();
@@ -47,7 +48,13 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(async () => {
     console.log("Connected To Database");
+
+    // Seed admin user and some movies
+    await createAdminIfNotExists();
     await addMoviesAutomatically();
-    app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+
+    app.listen(5000, () => {
+      console.log("Server running on http://localhost:5000");
+    });
   })
   .catch((err) => console.log(err));

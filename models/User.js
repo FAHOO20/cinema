@@ -16,6 +16,11 @@ const userSchema = new Schema({
     required: true,
     minLength: 6,
   },
+  // NEW FIELD
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   bookings: [
     {
       type: mongoose.Types.ObjectId,

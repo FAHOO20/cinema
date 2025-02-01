@@ -115,7 +115,6 @@ viewRouter.post("/web/signup", async (req, res) => {
     }
   });
   
-  // 🔐 Login (POST) - Bridging to /user/login
   viewRouter.post("/web/login", async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -127,20 +126,26 @@ viewRouter.post("/web/signup", async (req, res) => {
   
       const data = await response.json();
       if (!response.ok) {
-        console.log("Login error:", data.message);
         req.session.message = "Invalid email or password. Please try again.";
         return res.redirect("/login");
       }
   
-      req.session.user = { _id: data.id, email };
+      // ✅ Store `isAdmin` in session
+      req.session.user = {
+        _id: data.id,
+        email: data.email,
+        isAdmin: data.isAdmin,
+      };
+  
       req.session.message = "Login successful!";
       return res.redirect("/");
     } catch (err) {
-      console.error("Error bridging login:", err);
+      console.error("Error during login:", err);
       req.session.message = "An error occurred. Please try again.";
       return res.redirect("/login");
     }
   });
+  
   
   // 🔒 Logout (GET)
   viewRouter.get("/logout", (req, res) => {
@@ -226,7 +231,46 @@ viewRouter.post("/web/signup", async (req, res) => {
     }
   });  
   
+// Restrict access to new-movie page (only admins)
+viewRouter.get("/new-movie", (req, res) => {
+    if (!req.session.user || !req.session.user.isAdmin) {
+      req.session.message = "Access denied. Admins only.";
+      return res.redirect("/movies");
+    }
+    res.render("new-movie");
+  });
   
+  // Handle movie submission (only admins)
+  viewRouter.post("/new-movie", async (req, res) => {
+    if (!req.session.user || !req.session.user.isAdmin) {
+      req.session.message = "Access denied. Admins only.";
+      return res.redirect("/movies");
+    }
   
+    try {
+      // Forward the current request's cookie
+      const response = await fetch("http://localhost:5000/movie", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Cookie": req.headers.cookie, // <-- pass the same cookie to the next request
+        },
+        body: JSON.stringify(req.body),
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        req.session.message = data.message || "Failed to add movie.";
+        return res.redirect("/new-movie");
+      }
+  
+      req.session.message = "Movie added successfully!";
+      return res.redirect("/movies");
+    } catch (err) {
+      console.error("Error adding movie:", err);
+      req.session.message = "An error occurred.";
+      return res.redirect("/new-movie");
+    }
+  });
 
 export default viewRouter;
