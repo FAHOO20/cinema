@@ -4,12 +4,12 @@ import fetch from "node-fetch";
 
 const viewRouter = express.Router();
 
-// Middleware to pass login info & messages to all templates
+// Middleware for session-based data, unchanged
 viewRouter.use((req, res, next) => {
     res.locals.loggedIn = !!req.session.user;
     res.locals.user = req.session.user || null;
     res.locals.message = req.session.message || null;
-    req.session.message = null; // Clear message after displaying
+    req.session.message = null;
     next();
   });
   
@@ -66,26 +66,22 @@ viewRouter.get("/login", (req, res) => {
 
 // 📅 Book a ticket (GET)
 viewRouter.get("/new-booking", (req, res) => {
-  // If you only allow logged-in users to book, uncomment:
-  // if (!req.session.user) return res.redirect("/login");
-  res.render("new-booking");
-});
-
-// (Optional) Show a single booking (GET)
-viewRouter.get("/booking/:id", async (req, res) => {
-  const bookingId = req.params.id;
-  try {
-    const response = await fetch(`http://localhost:5000/booking/${bookingId}`);
-    if (!response.ok) {
-      return res.status(404).send("Booking not found");
+    // 1) If the user is not logged in, redirect or show message
+    if (!req.session.user) {
+      req.session.message = "You must log in to book a movie.";
+      return res.redirect("/login");
     }
-    const data = await response.json(); // { booking: {...} }
-    res.render("booking-details", { booking: data.booking });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error fetching booking");
-  }
-});
+  
+    // 2) Get movie from query string, e.g. /new-booking?movie=644f...
+    const selectedMovieId = req.query.movie;
+    
+    // 3) Render with the selected movie ID
+    // (If none provided, user can still fill in or we can handle it)
+    res.render("new-booking", {
+      selectedMovieId,         // pass to EJS
+      loggedInUserId: req.session.user._id, // current user
+    });
+  });
 
 /* 
   NEW ROUTES: "Bridge" endpoints
@@ -152,6 +148,85 @@ viewRouter.post("/web/signup", async (req, res) => {
     req.session.message = "You have been logged out.";
     res.redirect("/");
   });
+
+  viewRouter.post("/web/booking", async (req, res) => {
+    if (!req.session.user) {
+      req.session.message = "Please log in first.";
+      return res.redirect("/login");
+    }
+  
+    const { movie, date, seatNumber, user } = req.body;
+  
+    try {
+      const response = await fetch("http://localhost:5000/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ movie, date, seatNumber, user }),
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        console.error("Booking error:", data.message);
+        req.session.message = data.message || "Booking failed.";
+        return res.redirect("/movies");
+      }
+  
+      return res.redirect(`/booking-success?bid=${data.booking._id}`);
+    } catch (err) {
+      console.error("Error during booking:", err);
+      req.session.message = "Server error during booking.";
+      return res.redirect("/movies");
+    }
+  });
+
+  viewRouter.get("/booking-success", async (req, res) => {
+    const bookingId = req.query.bid;
+    if (!bookingId) {
+      req.session.message = "No booking ID found. Please check your booking.";
+      return res.redirect("/movies");
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:5000/booking/${bookingId}`);
+      const data = await response.json();
+      if (!response.ok) {
+        req.session.message = "Could not find booking details.";
+        return res.redirect("/movies");
+      }
+  
+      return res.render("booking-confirmation", { booking: data.booking });
+    } catch (err) {
+      console.error("Booking confirmation error:", err);
+      req.session.message = "Error retrieving booking details.";
+      return res.redirect("/movies");
+    }
+  });
+
+  viewRouter.get("/my-bookings", async (req, res) => {
+    if (!req.session.user) {
+      req.session.message = "Please login first to view your bookings.";
+      return res.redirect("/login");
+    }
+  
+    const userId = req.session.user._id;
+  
+    try {
+      const response = await fetch(`http://localhost:5000/user/bookings/${userId}`);
+      const data = await response.json();
+      if (!response.ok) {
+        req.session.message = data.message || "Could not get your bookings.";
+        return res.redirect("/movies");
+      }
+  
+      return res.render("my-bookings", { bookings: data.bookings });
+    } catch (err) {
+      console.error("Error fetching user bookings:", err);
+      req.session.message = "Server error retrieving bookings.";
+      return res.redirect("/movies");
+    }
+  });  
+  
+  
   
 
 export default viewRouter;

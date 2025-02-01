@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/head", { pageTitle: "Booking Confirmation" }) %>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <main>
+    <h1>Booking Successful!</h1>
+
+    <% if (!booking) { %>
+      <p>Hmm, no booking found. Please try again.</p>
+    <% } else { %>
+      <p>Your booking has been created successfully.</p>
+      <ul>
+        <li><strong>Movie:</strong> <%= booking.movie.title %></li>
+        <li><strong>Date:</strong> <%= new Date(booking.date).toDateString() %></li>
+        <li><strong>Seat Number:</strong> <%= booking.seatNumber %></li>
+      </ul>
+      <a href="/my-bookings">View My Bookings</a>
+    <% } %>
+  </main>
+  <%- include("partials/footer") %>
+</body>
+</html>

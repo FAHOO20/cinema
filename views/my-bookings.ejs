@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/head", { pageTitle: "My Bookings" }) %>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <main>
+    <h1>My Bookings</h1>
+    <% if (!bookings || !bookings.length) { %>
+      <p>You have no bookings yet.</p>
+    <% } else { %>
+      <ul>
+        <% bookings.forEach((b) => { %>
+          <li>
+            🎬 <strong>Movie:</strong> <%= b.movie.title %> |
+            📅 <strong>Date:</strong> <%= new Date(b.date).toDateString() %> |
+            💺 <strong>Seat:</strong> <%= b.seatNumber %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </main>
+  <%- include("partials/footer") %>
+</body>
+</html>

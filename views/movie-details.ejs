@@ -13,6 +13,16 @@
     <p><strong>Release Date:</strong> <%= new Date(movie.releaseDate).toDateString() %></p>
     <p><strong>Actors:</strong> <%= movie.actors.join(", ") %></p>
     <p><strong>Featured:</strong> <%= movie.featured ? "Yes" : "No" %></p>
+
+    <% if (loggedIn) { %>
+      <!-- If logged in, show a Book Now button. 
+           The user will go to /new-booking?movie=xxxx -->
+      <p>
+        <a href="/new-booking?movie=<%= movie._id %>">Book This Movie</a>
+      </p>
+    <% } else { %>
+      <p>Please <a href="/login">login</a> to book this movie.</p>
+    <% } %>
   </main>
 
   <%- include("partials/footer") %>
