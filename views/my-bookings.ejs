@@ -5,22 +5,33 @@
 </head>
 <body>
   <%- include("partials/header") %>
-  <main>
-    <h1>My Bookings</h1>
+
+  <main class="container mt-5">
+    <h1 class="text-center">My Bookings</h1>
     <% if (!bookings || !bookings.length) { %>
-      <p>You have no bookings yet.</p>
+      <p class="text-center">You have no bookings yet.</p>
     <% } else { %>
-      <ul>
-        <% bookings.forEach((b) => { %>
-          <li>
-            🎬 <strong>Movie:</strong> <%= b.movie.title %> |
-            📅 <strong>Date:</strong> <%= new Date(b.date).toDateString() %> |
-            💺 <strong>Seat:</strong> <%= b.seatNumber %>
-          </li>
-        <% }) %>
-      </ul>
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Movie</th>
+            <th>Date</th>
+            <th>Seat Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach((b) => { %>
+            <tr>
+              <td><%= b.movie.title %></td> 
+              <td><%= new Date(b.date).toDateString() %></td>
+              <td><%= b.seatNumber %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
     <% } %>
   </main>
+
   <%- include("partials/footer") %>
 </body>
 </html>

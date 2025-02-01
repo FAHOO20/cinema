@@ -6,25 +6,24 @@
 <body>
   <%- include("partials/header") %>
 
-  <main>
-    <h1><%= movie.title %></h1>
-    <img src="<%= movie.posterUrl %>" alt="<%= movie.title %> Poster" width="200" />
-    <p><strong>Description:</strong> <%= movie.description %></p>
-    <p><strong>Release Date:</strong> <%= new Date(movie.releaseDate).toDateString() %></p>
-    <p><strong>Actors:</strong> <%= movie.actors.join(", ") %></p>
-    <p><strong>Featured:</strong> <%= movie.featured ? "Yes" : "No" %></p>
+  <main class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <img src="<%= movie.posterUrl %>" class="img-fluid rounded" alt="<%= movie.title %> Poster">
+      </div>
+      <div class="col-md-8">
+        <h1><%= movie.title %></h1>
+        <p><strong>Description:</strong> <%= movie.description %></p>
+        <p><strong>Release Date:</strong> <%= new Date(movie.releaseDate).toDateString() %></p>
+        <p><strong>Actors:</strong> <%= movie.actors.join(", ") %></p>
+        <p><strong>Featured:</strong> <%= movie.featured ? "Yes" : "No" %></p>
 
-    <% if (loggedIn) { %>
-      <!-- If logged in, show a Book Now button. 
-           The user will go to /new-booking?movie=xxxx -->
-      <p>
-        <a href="/new-booking?movie=<%= movie._id %>">Book This Movie</a>
-      </p>
-    <% } else { %>
-      <p>Please <a href="/login">login</a> to book this movie.</p>
-    <% } %>
+        <% if (loggedIn) { %>
+          <a href="/new-booking?movie=<%= movie._id %>" class="btn btn-success">🎟 Book Now</a>
+        <% } else { %>
+          <p class="text-danger">Please <a href="/login">login</a> to book this movie.</p>
+        <% } %>
+      </div>
+    </div>
   </main>
 
-  <%- include("partials/footer") %>
-</body>
-</html>

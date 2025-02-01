@@ -6,17 +6,25 @@
 <body>
   <%- include("partials/header") %>
 
-  <main>
-    <h1>🎬 Now Showing</h1>
-    <ul>
+  <main class="container mt-5">
+    <h1 class="text-center">🎬 Now Showing</h1>
+    <div class="row mt-4">
       <% if (movies && movies.length) { %>
-        <% movies.forEach((m) => { %>
-          <li><a href="/movies/<%= m._id %>"><%= m.title %></a></li>
+        <% movies.forEach((movie) => { %>
+          <div class="col-md-3">
+            <div class="card">
+              <img src="<%= movie.posterUrl %>" class="card-img-top" alt="<%= movie.title %>">
+              <div class="card-body text-center">
+                <h5 class="card-title"><%= movie.title %></h5>
+                <a href="/movies/<%= movie._id %>" class="btn btn-primary">View Details</a>
+              </div>
+            </div>
+          </div>
         <% }) %>
       <% } else { %>
-        <li>No movies found</li>
+        <p class="text-center">No movies available.</p>
       <% } %>
-    </ul>
+    </div>
   </main>
 
   <%- include("partials/footer") %>

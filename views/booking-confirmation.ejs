@@ -5,21 +5,24 @@
 </head>
 <body>
   <%- include("partials/header") %>
-  <main>
-    <h1>Booking Successful!</h1>
 
-    <% if (!booking) { %>
-      <p>Hmm, no booking found. Please try again.</p>
-    <% } else { %>
-      <p>Your booking has been created successfully.</p>
-      <ul>
-        <li><strong>Movie:</strong> <%= booking.movie.title %></li>
-        <li><strong>Date:</strong> <%= new Date(booking.date).toDateString() %></li>
-        <li><strong>Seat Number:</strong> <%= booking.seatNumber %></li>
-      </ul>
-      <a href="/my-bookings">View My Bookings</a>
-    <% } %>
+  <main class="container mt-5">
+    <div class="alert alert-success text-center">
+      <h1>🎉 Booking Successful!</h1>
+      <% if (booking) { %>
+        <p>Your booking has been created successfully.</p>
+        <ul class="list-group">
+          <li class="list-group-item"><strong>Movie:</strong> <%= booking.movie.title %></li>
+          <li class="list-group-item"><strong>Date:</strong> <%= new Date(booking.date).toDateString() %></li>
+          <li class="list-group-item"><strong>Seat Number:</strong> <%= booking.seatNumber %></li>
+        </ul>
+        <a href="/my-bookings" class="btn btn-primary mt-3">View My Bookings</a>
+      <% } else { %>
+        <p>Hmm, no booking found. Please try again.</p>
+      <% } %>
+    </div>
   </main>
+
   <%- include("partials/footer") %>
 </body>
 </html>

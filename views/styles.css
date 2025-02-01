@@ -1,0 +1,74 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  }
+  
+  /* Navbar */
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background-image: url('/img/cinema-bg.jpg'); /* Change this to an actual image */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Movie Cards */
+  .card {
+    transition: transform 0.3s ease-in-out;
+  }
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Footer */
+  footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+  }
+  
+  /* Ensure HTML & Body can stretch to full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Make the body a flex container so footer can stick to bottom if content is short */
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* The main content will flex to fill remaining space */
+  main {
+    flex: 1 0 auto;
+  }
+  
+  /* The footer won't float up if main content is shorter than screen height */
+  footer {
+    flex-shrink: 0;
+  }
+  
+  /* Some utility spacing if needed */
+  .container-form {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  /* Messages or alerts styling if you want them more visible */
+  .message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  
