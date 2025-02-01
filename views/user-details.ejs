@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head", { pageTitle: user.name }) %>
+  </head>
+  <body>
+    <%- include("partials/header") %>
+    <main>
+      <h1><%= user.name %></h1>
+      <p>Email: <%= user.email %></p>
+      <p>User ID: <%= user._id %></p>
+      <p>Number of Bookings: <%= user.bookings.length %></p>
+      <a href="/users">Back to Users</a>
+    </main>
+    <%- include("partials/footer") %>
+  </body>
+</html>

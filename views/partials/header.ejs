@@ -1,0 +1,33 @@
+<header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/movies">Movies</a></li>
+        <li><a href="/new-booking">Book a Ticket</a></li>
+  
+        <% if (!loggedIn) { %>
+          <li><a href="/signup">Sign Up</a></li>
+          <li><a href="/login">Login</a></li>
+        <% } else { %>
+          <li><strong>👤 Welcome, <%= user.email %>!</strong></li>
+          <li><a href="/logout">Logout</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  
+    <% if (message) { %>
+      <div class="message"><%= message %></div>
+    <% } %>
+  </header>
+  
+  <style>
+    .message {
+      background: #28a745;
+      color: white;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+  

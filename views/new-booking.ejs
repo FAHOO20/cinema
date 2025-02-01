@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/head", { pageTitle: "Book a Ticket" }) %>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <main>
+    <h1>New Booking</h1>
+    <!-- Submits to POST /booking -->
+    <form action="/booking" method="POST">
+      <!-- According to your booking-controller, it expects { movie, date, seatNumber, user } -->
+      <label>Movie ID:</label><br/>
+      <input type="text" name="movie" required /><br/><br/>
+
+      <label>User ID:</label><br/>
+      <input type="text" name="user" required /><br/><br/>
+
+      <label>Date (YYYY-MM-DD):</label><br/>
+      <input type="date" name="date" required /><br/><br/>
+
+      <label>Seat Number:</label><br/>
+      <input type="number" name="seatNumber" required /><br/><br/>
+
+      <button type="submit">Create Booking</button>
+    </form>
+  </main>
+  <%- include("partials/footer") %>
+</body>
+</html>

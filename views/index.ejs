@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/head", { pageTitle: "Home" }) %>
+  <style>
+    .hero { background: #444; color: white; padding: 50px; font-size: 24px; text-align: center; }
+    .container { width: 80%; margin: 20px auto; }
+    .movies { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+    .movie-card { width: 200px; border: 1px solid #ddd; padding: 10px; text-align: center; }
+    .movie-card img { width: 100%; height: 300px; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <!-- Hero Banner -->
+  <section class="hero">
+    <h1>🎬 Welcome to Cinema Booking</h1>
+    <p>Book your favorite movies easily and enjoy the best cinema experience.</p>
+  </section>
+
+  <!-- Featured Movies -->
+  <section class="container">
+    <h2>🎥 Featured Movies</h2>
+    <div class="movies">
+      <% if (movies && movies.length) { %>
+        <% movies.slice(0, 4).forEach((movie) => { %>
+          <div class="movie-card">
+            <img src="<%= movie.posterUrl %>" alt="<%= movie.title %> Poster">
+            <h3><%= movie.title %></h3>
+            <p>
+              <a href="/movies/<%= movie._id %>">View Details</a>
+            </p>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No movies available.</p>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include("partials/footer") %>
+</body>
+</html>

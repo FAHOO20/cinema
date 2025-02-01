@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/head", { pageTitle: "All Movies" }) %>
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <main>
+    <h1>🎬 Now Showing</h1>
+    <ul>
+      <% if (movies && movies.length) { %>
+        <% movies.forEach((m) => { %>
+          <li><a href="/movies/<%= m._id %>"><%= m.title %></a></li>
+        <% }) %>
+      <% } else { %>
+        <li>No movies found</li>
+      <% } %>
+    </ul>
+  </main>
+
+  <%- include("partials/footer") %>
+</body>
+</html>

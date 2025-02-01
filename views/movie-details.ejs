@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/head", { pageTitle: movie.title }) %>
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <main>
+    <h1><%= movie.title %></h1>
+    <img src="<%= movie.posterUrl %>" alt="<%= movie.title %> Poster" width="200" />
+    <p><strong>Description:</strong> <%= movie.description %></p>
+    <p><strong>Release Date:</strong> <%= new Date(movie.releaseDate).toDateString() %></p>
+    <p><strong>Actors:</strong> <%= movie.actors.join(", ") %></p>
+    <p><strong>Featured:</strong> <%= movie.featured ? "Yes" : "No" %></p>
+  </main>
+
+  <%- include("partials/footer") %>
+</body>
+</html>

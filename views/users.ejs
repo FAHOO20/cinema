@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head", { pageTitle: "All Users" }) %>
+  </head>
+  <body>
+    <%- include("partials/header") %>
+    <main>
+      <h1>All Users</h1>
+      <ul>
+        <% if (users && users.length) { %>
+          <% users.forEach((user) => { %>
+            <li>
+              <a href="/users/<%= user._id %>"><%= user.name %></a> 
+              (Email: <%= user.email %>)
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li>No users found</li>
+        <% } %>
+      </ul>
+    </main>
+    <%- include("partials/footer") %>
+  </body>
+</html>

@@ -27,7 +27,6 @@ const movieSchema = new mongoose.Schema({
       ref: "Booking",
     },
   ],
-  // ❌ Removed the `admin` field
 });
 
 export default mongoose.model("Movie", movieSchema);
