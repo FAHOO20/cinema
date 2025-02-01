@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <%- include("partials/head", { pageTitle: "Home" }) %>
-</head>
-<body>
-  <%- include("partials/header") %>
+<%- include("partials/head", { pageTitle: "Home" }) %>
+<%- include("partials/header") %>
 
+<main class="flex-grow-1">
   <!-- Hero Section -->
   <section class="hero bg-dark text-white text-center py-5">
     <div class="container">
@@ -36,7 +32,6 @@
       <% } %>
     </div>
   </section>
+</main>
 
-  <%- include("partials/footer") %>
-</body>
-</html>
+<%- include("partials/footer") %>
