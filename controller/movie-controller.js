@@ -41,12 +41,11 @@ const initialMovies = [
   }
 ];
 
-// Function to add movies automatically at startup (avoiding duplicates)
+// Automatically add movies at startup (avoiding duplicates)
 export const addMoviesAutomatically = async () => {
   try {
     for (const movieData of initialMovies) {
       const existingMovie = await Movie.findOne({ title: movieData.title });
-
       if (!existingMovie) {
         await Movie.create(movieData);
         console.log(`✅ Added movie: ${movieData.title}`);
@@ -60,39 +59,54 @@ export const addMoviesAutomatically = async () => {
 };
 
 // POST - Add a new movie manually
-export const addMovie = async (req, res, next) => {
-  const { title, description, releaseDate, posterUrl, featured, actors } = req.body;
-
-  if (!title || !description || !posterUrl || !releaseDate || !actors || !Array.isArray(actors)) {
-    return res.status(422).json({ message: "Invalid Inputs" });
-  }
-
+export const addMovie = async (req, res) => {
   try {
-    const existingMovie = await Movie.findOne({ title });
+    // Log the incoming body for debugging:
+    console.log("💾 addMovie() - body:", req.body);
 
+    let { title, description, releaseDate, posterUrl, featured, actors } = req.body;
+
+    // 1) Convert "featured" (which might be "on" or undefined) to boolean
+    featured = featured === "on";
+
+    // 2) If actors is a comma-separated string, split it into an array
+    if (typeof actors === "string") {
+      actors = actors.split(",").map((actor) => actor.trim());
+    }
+
+    // 3) Validate required fields
+    if (!title || !description || !posterUrl || !releaseDate || !actors) {
+      return res.status(422).json({ message: "Invalid Inputs" });
+    }
+
+    // 4) Check if the movie already exists
+    const existingMovie = await Movie.findOne({ title });
     if (existingMovie) {
       return res.status(400).json({ message: "Movie already exists" });
     }
 
+    // 5) Create a new movie
     const movie = new Movie({
       title,
       description,
       releaseDate: new Date(releaseDate),
       posterUrl,
       featured,
-      actors,
+      actors, // now an array
     });
 
+    // 6) Save to DB
     await movie.save();
+    console.log("✅ New movie saved:", movie.title);
     return res.status(201).json({ movie });
   } catch (err) {
-    console.log(err);
+    console.error("❌ addMovie() error:", err);
     return res.status(500).json({ message: "Request Failed" });
   }
 };
 
 // GET - Fetch all movies
-export const getAllMovies = async (req, res, next) => {
+export const getAllMovies = async (req, res) => {
   try {
     const movies = await Movie.find();
     return res.status(200).json({ movies });
@@ -103,7 +117,7 @@ export const getAllMovies = async (req, res, next) => {
 };
 
 // GET - Fetch a movie by ID
-export const getMovieById = async (req, res, next) => {
+export const getMovieById = async (req, res) => {
   const { id } = req.params;
   try {
     const movie = await Movie.findById(id);

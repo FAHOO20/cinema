@@ -87,14 +87,10 @@ export const deleteUser = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
-  if (
-    !email ||
-    !password ||
-    email.trim() === "" ||
-    password.trim() === ""
-  ) {
+  if (!email || !password || email.trim() === "" || password.trim() === "") {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
+
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
@@ -104,9 +100,7 @@ export const login = async (req, res, next) => {
   }
 
   if (!existingUser) {
-    return res
-      .status(404)
-      .json({ message: "Unable to find user with that email" });
+    return res.status(404).json({ message: "User not found" });
   }
 
   const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
@@ -114,10 +108,21 @@ export const login = async (req, res, next) => {
     return res.status(400).json({ message: "Incorrect Password" });
   }
 
-  return res
-    .status(200)
-    .json({ message: "Login Successful", id: existingUser._id });
+  // ✅ Store isAdmin in session
+  req.session.user = {
+    _id: existingUser._id,
+    email: existingUser.email,
+    isAdmin: existingUser.isAdmin,  // ✅ Store admin status
+  };
+
+  return res.status(200).json({
+    message: "Login Successful",
+    id: existingUser._id,
+    email: existingUser.email,
+    isAdmin: existingUser.isAdmin,
+  });
 };
+
 
 export const getBookingsOfUser = async (req, res, next) => {
   const id = req.params.id;
@@ -143,10 +148,38 @@ export const getUserById = async (req, res, next) => {
     user = await User.findById(id);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "Database error" });
+    return res.status(500).json({ message: "Database error" }); 
   }
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
   return res.status(200).json({ user });
+};
+
+export const createAdminIfNotExists = async () => {
+  try {
+    console.log("🔍 Checking for existing admin user...");
+
+    const adminEmail = "admin@admin.com";
+    const existingAdmin = await User.findOne({ email: adminEmail });
+
+    if (!existingAdmin) {
+      console.log("⚠️ No admin user found. Creating a new admin...");
+
+      const hashedPassword = bcrypt.hashSync("admin123", 10);
+      const newAdmin = new User({
+        name: "admin",
+        email: adminEmail,
+        password: hashedPassword,
+        isAdmin: true,
+      });
+
+      await newAdmin.save();
+      console.log("✅ Admin user created successfully!");
+    } else {
+      console.log("⚠️ Admin user already exists. Skipping creation.");
+    }
+  } catch (err) {
+    console.error("❌ Error creating admin user:", err);
+  }
 };
