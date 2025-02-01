@@ -67,23 +67,37 @@ export const getBookingById = async (req, res, next) => {
   return res.status(200).json({ booking });
 };
 
+// Remove session/transaction to avoid the replica-set error
 export const deleteBooking = async (req, res, next) => {
   const id = req.params.id;
-  let booking;
   try {
-    booking = await Bookings.findByIdAndRemove(id).populate("user movie");
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    await booking.user.bookings.pull(booking);
-    await booking.movie.bookings.pull(booking);
-    await booking.movie.save({ session });
-    await booking.user.save({ session });
-    await session.commitTransaction();
+    // 1) Fetch the booking + its user/movie references
+    const booking = await Bookings.findById(id)
+      .populate("user")
+      .populate("movie");
+
+    // 2) If no booking found, respond with an error
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // 3) Safely pull references from user & movie, if they exist
+    if (booking.user) {
+      booking.user.bookings.pull(booking._id);
+      await booking.user.save();
+    }
+
+    if (booking.movie) {
+      booking.movie.bookings.pull(booking._id);
+      await booking.movie.save();
+    }
+
+    // 4) Remove the booking document itself
+    await Bookings.findByIdAndRemove(id);
+
+    return res.status(200).json({ message: "Successfully Deleted" });
   } catch (err) {
-    return console.log(err);
-  }
-  if (!booking) {
+    console.log(err);
     return res.status(500).json({ message: "Unable to Delete" });
   }
-  return res.status(200).json({ message: "Successfully Deleted" });
 };
