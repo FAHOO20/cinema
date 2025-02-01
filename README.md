@@ -6,7 +6,7 @@
 
 **Abdullah Faisal AlFehaid**
 
-**Faisal Youssef AlSogairy**
+**Faisal Youssef Alsqere**
 
 **Faisal Abdulrahman Alhassoun**
 
