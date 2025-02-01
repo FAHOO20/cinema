@@ -1,122 +1,246 @@
 <!-- views/new-booking.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include("partials/head", { pageTitle: "Book a Ticket" }) %>
+  <head>
+    <%- include("partials/head", { pageTitle: "Book a Ticket" }) %>
 
-  <style>
-    /* Styles for seat selection */
-    .screen {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .seating {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .row-seats {
-      display: flex;
-      gap: 10px;
-    }
-    .seat {
-      width: 40px;
-      height: 40px;
-      background-color: #ddd;
-      border: 1px solid #aaa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      user-select: none;
-      font-weight: bold;
-    }
-    .seat.selected {
-      background-color: #28a745;
-      color: white;
-    }
-    .seat.booked {
-      background-color: #dc3545;
-      cursor: not-allowed;
-      color: white;
-    }
-  </style>
-</head>
-<body>
-  <%- include("partials/header") %>
+    <style>
+      /* Styles for seat selection */
+      .screen {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+      .seating {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .row-seats {
+        display: flex;
+        gap: 10px;
+      }
+      .seat {
+        width: 40px;
+        height: 40px;
+        background-color: #ddd;
+        border: 1px solid #aaa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        font-weight: bold;
+      }
+      .seat.selected {
+        background-color: #28a745;
+        color: white;
+      }
+      .seat.booked {
+        background-color: #dc3545;
+        cursor: not-allowed;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("partials/header") %>
 
-  <main class="container mt-5">
-    <h1 class="text-center">New Booking</h1>
+    <main class="container mt-5">
+      <h1 class="text-center">New Booking</h1>
 
-    <form id="bookingForm" action="/web/booking" method="POST" class="card p-4 shadow">
-      <input type="hidden" name="movie" value="<%= selectedMovieId %>" />
-      <input type="hidden" name="user" value="<%= loggedInUserId %>" />
-      <input type="hidden" name="seatNumber" id="seatNumberInput" />
+      <form
+        id="bookingForm"
+        action="/web/booking"
+        method="POST"
+        class="card p-4 shadow"
+      >
+        <input type="hidden" name="movie" value="<%= selectedMovieId %>" />
+        <input type="hidden" name="user" value="<%= loggedInUserId %>" />
+        <input type="hidden" name="seatNumber" id="seatNumberInput" />
 
-      <div class="mb-3">
-        <label class="form-label">Date:</label>
-        <input type="date" class="form-control" name="date" required />
-      </div>
+        <div class="mb-3">
+          <label class="form-label">Date:</label>
+          <input type="date" class="form-control" name="date" required />
+        </div>
 
-      <div class="mb-3">
-        <label class="form-label">Pick your seat:</label>
-        <div class="screen">SCREEN</div>
-        <div id="seating" class="seating">
-          <div class="row-seats">
-            <div class="seat" data-seat="A1">A1</div>
-            <div class="seat" data-seat="A2">A2</div>
-            <div class="seat" data-seat="A3">A3</div>
-            <div class="seat" data-seat="A4">A4</div>
-            <div class="seat" data-seat="A5">A5</div>
-            <div class="seat" data-seat="A6">A6</div>
-            <div class="seat" data-seat="A7">A7</div>
-            <div class="seat" data-seat="A8">A8</div>
-          </div>
-          <div class="row-seats">
-            <div class="seat" data-seat="B1">B1</div>
-            <div class="seat" data-seat="B2">B2</div>
-            <div class="seat" data-seat="B3">B3</div>
-            <div class="seat" data-seat="B4">B4</div>
-            <div class="seat" data-seat="B5">B5</div>
-            <div class="seat" data-seat="B6">B6</div>
-            <div class="seat" data-seat="B7">B7</div>
-            <div class="seat" data-seat="B8">B8</div>
+        <div class="mb-3">
+          <label class="form-label">Pick your seat:</label>
+          <div class="screen">SCREEN</div>
+          <div id="seating" class="seating">
+            <div class="row-seats">
+              <div class="seat" data-seat="A1">A1</div>
+              <div class="seat" data-seat="A2">A2</div>
+              <div class="seat" data-seat="A3">A3</div>
+              <div class="seat" data-seat="A4">A4</div>
+              <div class="seat" data-seat="A5">A5</div>
+              <div class="seat" data-seat="A6">A6</div>
+              <div class="seat" data-seat="A7">A7</div>
+              <div class="seat" data-seat="A8">A8</div>
+              <div class="seat" data-seat="A9">A9</div>
+              <div class="seat" data-seat="A10">A10</div>
+              <div class="seat" data-seat="A11">A11</div>
+              <div class="seat" data-seat="A12">A12</div>
+              <div class="seat" data-seat="A13">A13</div>
+              <div class="seat" data-seat="A14">A14</div>
+              <div class="seat" data-seat="A15">A15</div>
+              <div class="seat" data-seat="A16">A16</div>
+              <div class="seat" data-seat="A17">A17</div>
+              <div class="seat" data-seat="A18">A18</div>
+              <div class="seat" data-seat="A19">A19</div>
+              <div class="seat" data-seat="A20">A20</div>
+              <div class="seat" data-seat="A21">A21</div>
+              <div class="seat" data-seat="A22">A22</div>
+              <div class="seat" data-seat="A23">A23</div>
+              <div class="seat" data-seat="A24">A24</div>
+              <div class="seat" data-seat="A25">A25</div>
+            </div>
+            <div class="row-seats">
+              <div class="seat" data-seat="B1">B1</div>
+              <div class="seat" data-seat="B2">B2</div>
+              <div class="seat" data-seat="B3">B3</div>
+              <div class="seat" data-seat="B4">B4</div>
+              <div class="seat" data-seat="B5">B5</div>
+              <div class="seat" data-seat="B6">B6</div>
+              <div class="seat" data-seat="B7">B7</div>
+              <div class="seat" data-seat="B8">B8</div>
+              <div class="seat" data-seat="B9">B9</div>
+              <div class="seat" data-seat="B10">B10</div>
+              <div class="seat" data-seat="B11">B11</div>
+              <div class="seat" data-seat="B12">B12</div>
+              <div class="seat" data-seat="B13">B13</div>
+              <div class="seat" data-seat="B14">B14</div>
+              <div class="seat" data-seat="B15">B15</div>
+              <div class="seat" data-seat="B16">B16</div>
+              <div class="seat" data-seat="B17">B17</div>
+              <div class="seat" data-seat="B18">B18</div>
+              <div class="seat" data-seat="B19">B19</div>
+              <div class="seat" data-seat="B20">B20</div>
+              <div class="seat" data-seat="B21">B21</div>
+              <div class="seat" data-seat="B22">B22</div>
+              <div class="seat" data-seat="B23">B23</div>
+              <div class="seat" data-seat="B24">B24</div>
+              <div class="seat" data-seat="B25">B25</div>
+            </div>
+            <div class="row-seats">
+              <div class="seat" data-seat="C1">C1</div>
+              <div class="seat" data-seat="C2">C2</div>
+              <div class="seat" data-seat="C3">C3</div>
+              <div class="seat" data-seat="C4">C4</div>
+              <div class="seat" data-seat="C5">C5</div>
+              <div class="seat" data-seat="C6">C6</div>
+              <div class="seat" data-seat="C7">C7</div>
+              <div class="seat" data-seat="C8">C8</div>
+              <div class="seat" data-seat="C9">C9</div>
+              <div class="seat" data-seat="C10">C10</div>
+              <div class="seat" data-seat="C11">C11</div>
+              <div class="seat" data-seat="C12">C12</div>
+              <div class="seat" data-seat="C13">C13</div>
+              <div class="seat" data-seat="C14">C14</div>
+              <div class="seat" data-seat="C15">C15</div>
+              <div class="seat" data-seat="C16">C16</div>
+              <div class="seat" data-seat="C17">C17</div>
+              <div class="seat" data-seat="C18">C18</div>
+              <div class="seat" data-seat="C19">C19</div>
+              <div class="seat" data-seat="C20">C20</div>
+              <div class="seat" data-seat="C21">C21</div>
+              <div class="seat" data-seat="C22">C22</div>
+              <div class="seat" data-seat="C23">C23</div>
+              <div class="seat" data-seat="C24">C24</div>
+              <div class="seat" data-seat="C25">C25</div>
+            </div>
+            <div class="row-seats">
+              <div class="seat" data-seat="D1">E1</div>
+              <div class="seat" data-seat="D2">E2</div>
+              <div class="seat" data-seat="D3">E3</div>
+              <div class="seat" data-seat="D4">E4</div>
+              <div class="seat" data-seat="D5">E5</div>
+              <div class="seat" data-seat="D6">E6</div>
+              <div class="seat" data-seat="D7">E7</div>
+              <div class="seat" data-seat="D8">E8</div>
+              <div class="seat" data-seat="D9">E9</div>
+              <div class="seat" data-seat="D10">D10</div>
+              <div class="seat" data-seat="D11">D11</div>
+              <div class="seat" data-seat="D12">D12</div>
+              <div class="seat" data-seat="D13">D13</div>
+              <div class="seat" data-seat="D14">D14</div>
+              <div class="seat" data-seat="D15">D15</div>
+              <div class="seat" data-seat="D16">D16</div>
+              <div class="seat" data-seat="D17">D17</div>
+              <div class="seat" data-seat="D18">D18</div>
+              <div class="seat" data-seat="D19">D19</div>
+              <div class="seat" data-seat="D20">D20</div>
+              <div class="seat" data-seat="D21">D21</div>
+              <div class="seat" data-seat="D22">D22</div>
+              <div class="seat" data-seat="D23">D23</div>
+              <div class="seat" data-seat="D24">D24</div>
+              <div class="seat" data-seat="D25">D25</div>
+            </div>
+            <div class="row-seats">
+              <div class="seat" data-seat="E1">E1</div>
+              <div class="seat" data-seat="E2">E2</div>
+              <div class="seat" data-seat="E3">E3</div>
+              <div class="seat" data-seat="E4">E4</div>
+              <div class="seat" data-seat="E5">E5</div>
+              <div class="seat" data-seat="E6">E6</div>
+              <div class="seat" data-seat="E7">E7</div>
+              <div class="seat" data-seat="E8">E8</div>
+              <div class="seat" data-seat="E9">E9</div>
+              <div class="seat" data-seat="E10">E10</div>
+              <div class="seat" data-seat="E11">E11</div>
+              <div class="seat" data-seat="E12">E12</div>
+              <div class="seat" data-seat="E13">E13</div>
+              <div class="seat" data-seat="E14">E14</div>
+              <div class="seat" data-seat="E15">E15</div>
+              <div class="seat" data-seat="E16">E16</div>
+              <div class="seat" data-seat="E17">E17</div>
+              <div class="seat" data-seat="E18">E18</div>
+              <div class="seat" data-seat="E19">E19</div>
+              <div class="seat" data-seat="E20">E20</div>
+              <div class="seat" data-seat="E21">E21</div>
+              <div class="seat" data-seat="E22">E22</div>
+              <div class="seat" data-seat="E23">E23</div>
+              <div class="seat" data-seat="E24">E24</div>
+              <div class="seat" data-seat="E25">E25</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
-    </form>
-  </main>
+        <button type="submit" class="btn btn-primary w-100">
+          Confirm Booking
+        </button>
+      </form>
+    </main>
 
-  <%- include("partials/footer") %>
+    <%- include("partials/footer") %>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const seats = document.querySelectorAll(".seat");
-      const seatNumberInput = document.getElementById("seatNumberInput");
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const seats = document.querySelectorAll(".seat");
+        const seatNumberInput = document.getElementById("seatNumberInput");
 
-      seats.forEach((seat) => {
-        seat.addEventListener("click", () => {
-          if (seat.classList.contains("booked")) return;
+        seats.forEach((seat) => {
+          seat.addEventListener("click", () => {
+            if (seat.classList.contains("booked")) return;
 
-          // Remove selection from previously selected seats
-          document.querySelectorAll(".seat.selected").forEach((s) => s.classList.remove("selected"));
+            // Remove selection from previously selected seats
+            document
+              .querySelectorAll(".seat.selected")
+              .forEach((s) => s.classList.remove("selected"));
 
-          // Mark the clicked seat as selected
-          seat.classList.add("selected");
+            // Mark the clicked seat as selected
+            seat.classList.add("selected");
 
-          // Store seat ID in the hidden input
-          seatNumberInput.value = seat.getAttribute("data-seat");
-          console.log("Selected seat:", seatNumberInput.value);
+            // Store seat ID in the hidden input
+            seatNumberInput.value = seat.getAttribute("data-seat");
+            console.log("Selected seat:", seatNumberInput.value);
+          });
         });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

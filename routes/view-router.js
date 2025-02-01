@@ -273,4 +273,32 @@ viewRouter.get("/new-movie", (req, res) => {
     }
   });
 
+// DELETE /web/delete-booking/:id
+viewRouter.delete("/web/delete-booking/:id", async (req, res) => {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Please login first." });
+    }
+  
+    const bookingId = req.params.id;
+    try {
+      const response = await fetch(`http://localhost:5000/booking/${bookingId}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+  
+      if (!response.ok) {
+        return res.status(response.status).json({
+          message: data.message || "Could not delete booking.",
+        });
+      }
+  
+      return res.json({ message: "Booking deleted successfully!" });
+    } catch (error) {
+      console.error("Error deleting booking:", error);
+      return res
+        .status(500)
+        .json({ message: "Server error deleting booking." });
+    }
+  });
+  
 export default viewRouter;

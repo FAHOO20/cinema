@@ -1,62 +1,73 @@
-/* Example seat styling. Adjust as you prefer. */
-
-/* Body styling just to see the background, optional */
+/* General Styles */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background: #f5f5f5;
-}
-
-/* The seat map container */
-.seating {
-  display: inline-block;
-}
-
-/* Each row of seats */
-.row-seats {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-
-/* Individual seat */
-.seat {
-  width: 40px;
-  height: 40px;
-  background-color: #444451;
-  color: #fff;
-  margin: 5px;
-  border-radius: 4px;
-  text-align: center;
-  line-height: 40px; /* vertically center the seat label */
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-/* Hover effect */
-.seat:hover {
-  background-color: #666678;
-}
-
-/* If seat is booked, we show a different color + disallow pointer events */
-.seat.booked {
-  background-color: #ff6b6b;
-  cursor: not-allowed;
-}
-
-/* If seat is selected by user */
-.seat.selected {
-  background-color: #6feaf6;
-}
-
-/* The "Screen" label */
-.screen {
-  width: 200px;
-  margin: 0 auto 1rem;
-  padding: 0.5rem;
-  background: #ccc;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: bold;
-}
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  }
+  
+  /* Navbar */
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background-image: url(''); 
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Movie Cards */
+  .card {
+    transition: transform 0.3s ease-in-out;
+  }
+  .card:hover {
+    transform: scale(1.05);
+  } 
+  
+  /* Footer */
+  footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+  }
+  
+  /* Ensure HTML & Body can stretch to full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Make the body a flex container so footer can stick to bottom if content is short */
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* The main content will flex to fill remaining space */
+  main {
+    flex: 1 0 auto;
+  }
+  
+  /* The footer won't float up if main content is shorter than screen height */
+  footer {
+    flex-shrink: 0;
+  }
+  
+  /* Some utility spacing if needed */
+  .container-form {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  /* Messages or alerts styling if you want them more visible */
+  .message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
