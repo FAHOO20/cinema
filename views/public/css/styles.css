@@ -1,0 +1,62 @@
+/* Example seat styling. Adjust as you prefer. */
+
+/* Body styling just to see the background, optional */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #f5f5f5;
+}
+
+/* The seat map container */
+.seating {
+  display: inline-block;
+}
+
+/* Each row of seats */
+.row-seats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Individual seat */
+.seat {
+  width: 40px;
+  height: 40px;
+  background-color: #444451;
+  color: #fff;
+  margin: 5px;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 40px; /* vertically center the seat label */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover effect */
+.seat:hover {
+  background-color: #666678;
+}
+
+/* If seat is booked, we show a different color + disallow pointer events */
+.seat.booked {
+  background-color: #ff6b6b;
+  cursor: not-allowed;
+}
+
+/* If seat is selected by user */
+.seat.selected {
+  background-color: #6feaf6;
+}
+
+/* The "Screen" label */
+.screen {
+  width: 200px;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #ccc;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}

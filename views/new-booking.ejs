@@ -1,32 +1,122 @@
+<!-- views/new-booking.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <%- include("partials/head", { pageTitle: "Book a Ticket" }) %>
+
+  <style>
+    /* Styles for seat selection */
+    .screen {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .seating {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .row-seats {
+      display: flex;
+      gap: 10px;
+    }
+    .seat {
+      width: 40px;
+      height: 40px;
+      background-color: #ddd;
+      border: 1px solid #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      font-weight: bold;
+    }
+    .seat.selected {
+      background-color: #28a745;
+      color: white;
+    }
+    .seat.booked {
+      background-color: #dc3545;
+      cursor: not-allowed;
+      color: white;
+    }
+  </style>
 </head>
 <body>
   <%- include("partials/header") %>
+
   <main class="container mt-5">
     <h1 class="text-center">New Booking</h1>
 
-    <div class="card p-4 shadow">
-      <form action="/web/booking" method="POST">
-        <input type="hidden" name="movie" value="<%= selectedMovieId %>">
-        <input type="hidden" name="user" value="<%= loggedInUserId %>">
+    <form id="bookingForm" action="/web/booking" method="POST" class="card p-4 shadow">
+      <input type="hidden" name="movie" value="<%= selectedMovieId %>" />
+      <input type="hidden" name="user" value="<%= loggedInUserId %>" />
+      <input type="hidden" name="seatNumber" id="seatNumberInput" />
 
-        <div class="mb-3">
-          <label class="form-label">Date:</label>
-          <input type="date" class="form-control" name="date" required>
+      <div class="mb-3">
+        <label class="form-label">Date:</label>
+        <input type="date" class="form-control" name="date" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Pick your seat:</label>
+        <div class="screen">SCREEN</div>
+        <div id="seating" class="seating">
+          <div class="row-seats">
+            <div class="seat" data-seat="A1">A1</div>
+            <div class="seat" data-seat="A2">A2</div>
+            <div class="seat" data-seat="A3">A3</div>
+            <div class="seat" data-seat="A4">A4</div>
+            <div class="seat" data-seat="A5">A5</div>
+            <div class="seat" data-seat="A6">A6</div>
+            <div class="seat" data-seat="A7">A7</div>
+            <div class="seat" data-seat="A8">A8</div>
+          </div>
+          <div class="row-seats">
+            <div class="seat" data-seat="B1">B1</div>
+            <div class="seat" data-seat="B2">B2</div>
+            <div class="seat" data-seat="B3">B3</div>
+            <div class="seat" data-seat="B4">B4</div>
+            <div class="seat" data-seat="B5">B5</div>
+            <div class="seat" data-seat="B6">B6</div>
+            <div class="seat" data-seat="B7">B7</div>
+            <div class="seat" data-seat="B8">B8</div>
+          </div>
         </div>
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label">Seat Number:</label>
-          <input type="number" class="form-control" name="seatNumber" required min="1">
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
-      </form>
-    </div>
+      <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+    </form>
   </main>
+
   <%- include("partials/footer") %>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const seats = document.querySelectorAll(".seat");
+      const seatNumberInput = document.getElementById("seatNumberInput");
+
+      seats.forEach((seat) => {
+        seat.addEventListener("click", () => {
+          if (seat.classList.contains("booked")) return;
+
+          // Remove selection from previously selected seats
+          document.querySelectorAll(".seat.selected").forEach((s) => s.classList.remove("selected"));
+
+          // Mark the clicked seat as selected
+          seat.classList.add("selected");
+
+          // Store seat ID in the hidden input
+          seatNumberInput.value = seat.getAttribute("data-seat");
+          console.log("Selected seat:", seatNumberInput.value);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
